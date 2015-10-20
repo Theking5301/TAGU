@@ -7,7 +7,7 @@ import com.suburbandigital.amine.tagu.Math.Vec2;
  */
 public class UserPosition {
     private Vec2 POSITION;
-
+    private int hi;
     public UserPosition(double x, double y) {
         POSITION = new Vec2(x,y);
     }
