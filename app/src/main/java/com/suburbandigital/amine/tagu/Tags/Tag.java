@@ -8,15 +8,16 @@ import com.suburbandigital.amine.tagu.Math.Vec2;
 public class Tag {
     private String NAME;
     private String DESCRIPTION;
+    private String ENTITY;
     private TagType TYPE;
     private Vec2 POSITION;
 
-
-    public Tag(String name, String description, TagType type, Vec2 position) {
+    public Tag(String name, String description, String entity, TagType type, Vec2 position) {
         NAME = name;
         DESCRIPTION = description;
         TYPE = type;
         POSITION = position;
+        ENTITY = entity;
     }
 
     /**
