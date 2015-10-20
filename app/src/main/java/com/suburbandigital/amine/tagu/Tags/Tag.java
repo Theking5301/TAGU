@@ -11,6 +11,9 @@ public class Tag {
     private String ENTITY;
     private TagType TYPE;
     private Vec2 POSITION;
+    private int ID;
+
+
 
     public Tag(String name, String description, String entity, TagType type, Vec2 position) {
         NAME = name;
@@ -29,6 +32,9 @@ public class Tag {
         TYPE = type;
         POSITION = new Vec2(x,y);
     }
+    public int getID() {
+        return ID;
+    }
     public String getNAME() {
         return NAME;
     }
@@ -38,6 +44,9 @@ public class Tag {
     public TagType getTYPE() {
         return TYPE;
     }
+    public String getENTITY() {
+        return ENTITY;
+    }
     public Vec2 getPOSITION() {
         return POSITION;
     }
@@ -46,5 +55,9 @@ public class Tag {
     }
     public double getY() {
         return POSITION.getY();
+    }
+    @Override
+    public String toString() {
+        return "TAG [id=" + ID + ", name=" + NAME + ", desc=" + DESCRIPTION + ", ent=" + ENTITY + ", type=" + TYPE + ", posx=" + POSITION.getX() + "posy=" + getY() + "]";
     }
 }
