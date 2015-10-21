@@ -8,7 +8,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.suburbandigital.amine.tagu.Tags.Tag;
+import com.suburbandigital.amine.tagu.Tags.TagType;
 
 public class MainMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -39,8 +42,18 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng stonybrook = new LatLng(40.9142, -73.1162);
+        MarkerOptions marker = new MarkerOptions().position(stonybrook).title("Marker in Stony Brook");
+        marker.isDraggable();
+        mMap.addMarker(marker);
+
+        Tag wangTag = new Tag("Wang Center", "Asian things", "SBU", TagType.BUILDING, 40.9159, -73.1197);
+        addTag(wangTag);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(stonybrook));
+    }
+    public void addTag(Tag tag) {
+        LatLng tagLL = new LatLng(tag.getLat(), tag.getLong());
+        mMap.addMarker(new MarkerOptions().position(tagLL).title(tag.getNAME()));
     }
 }

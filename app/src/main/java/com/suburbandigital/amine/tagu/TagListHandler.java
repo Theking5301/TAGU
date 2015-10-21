@@ -47,8 +47,8 @@ public class TagListHandler extends SQLiteOpenHelper {
         values.put(KEY_DESC, tag.getDESCRIPTION()); // get title
         values.put(KEY_TYPE, tag.getTYPE().toString()); // get author
         values.put(KEY_ENT, tag.getENTITY()); // get title
-        values.put(KEY_XPOS, tag.getX()); // get author
-        values.put(KEY_YPOS, tag.getY()); // get title
+        values.put(KEY_XPOS, tag.getLat()); // get author
+        values.put(KEY_YPOS, tag.getLong()); // get title
 
         DATABASE.insert(DATABASENAME, null, values);
     }
