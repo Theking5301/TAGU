@@ -13,8 +13,6 @@ public class Tag {
     private Vec2 POSITION;
     private int ID;
 
-
-
     public Tag(String name, String description, String entity, TagType type, Vec2 position) {
         NAME = name;
         DESCRIPTION = description;

@@ -6,7 +6,6 @@ package com.suburbandigital.amine.tagu.Math;
 public class Vec2 {
     private double X;
     private double Y;
-    private int too;
 
     public Vec2(double x, double y) {
         X = x;
@@ -85,5 +84,11 @@ public class Vec2 {
      */
     public double shortLength() {
         return ((X * X) + (Y * Y));
+    }
+    public double shortDistance(Vec2 vector) {
+        return Math.pow((vector.getX() - X), 2) + Math.pow((vector.getY() - Y), 2);
+    }
+    public double distance(Vec2 vector) {
+        return Math.sqrt(Math.pow((vector.getX() - X), 2) + Math.pow((vector.getY() - Y), 2));
     }
 }
