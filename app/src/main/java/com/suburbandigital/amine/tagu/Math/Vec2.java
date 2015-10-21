@@ -6,6 +6,7 @@ package com.suburbandigital.amine.tagu.Math;
 public class Vec2 {
     private double X;
     private double Y;
+    private int too;
 
     public Vec2(double x, double y) {
         X = x;
