@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TAGU2.iml" filepath="$PROJECT_DIR$/TAGU2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TAGU.iml" filepath="$PROJECT_DIR$/TAGU.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
