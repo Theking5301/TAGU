@@ -2,17 +2,22 @@ package com.suburbandigital.amine.tagu;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.suburbandigital.amine.tagu.Tags.Tag;
+import com.suburbandigital.amine.tagu.Tags.TagType;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * TagU Closed Source
  * Created by Amine on 10/20/2015.
  */
-public class TagListHandler extends SQLiteOpenHelper {
+public class TagDatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASENAME = "TagDatabase";
     private static final int DATABASEVERSION = 1;
     public SQLiteDatabase DATABASE;
@@ -25,18 +30,39 @@ public class TagListHandler extends SQLiteOpenHelper {
     private static final String KEY_XPOS = "xpos";
     private static final String KEY_YPOS = "ypos";
 
-    public TagListHandler(Context context) {
+    public TagDatabaseHandler(Context context) {
         super(context, DATABASENAME, null, DATABASEVERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DATABASENAME + " ( " + "id INTEGER, " + "name TEXT, " +
                 "desc TEXT, " + "ent TEXT, " + "type TEXT, " + "posx INTEGER, " + "posy INTEGER )");
-        DATABASE = getWritableDatabase();
+        //DATABASE = getWritableDatabase();
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+    public List<Tag> getAllTags() {
+        List<Tag> tags = new LinkedList<Tag>();
+        String query = "SELECT  * FROM " + DATABASENAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        Tag tag = null;
+        if (cursor.moveToFirst()) {
+            do {
+                tag = new Tag(cursor.getString(1), cursor.getString(2), cursor.getString(3), TagType.valueOf(cursor.getString(4)),
+                        Double.parseDouble(cursor.getString(5)), Double.parseDouble(cursor.getString(6)));
+
+                // Add book to books
+                tags.add(tag);
+            } while (cursor.moveToNext());
+        }
+        tags.add(new Tag("Wang Center", "Asian food and culture", "SBU", TagType.BUILDING, 40.9159, -73.1197));
+        //Log.d("getAllBooks()", tag.toString());
+        return tags;
     }
     public void addTag(Tag tag){
         Log.d("addTag", tag.toString());

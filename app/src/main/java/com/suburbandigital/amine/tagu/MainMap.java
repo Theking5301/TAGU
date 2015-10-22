@@ -2,29 +2,23 @@ package com.suburbandigital.amine.tagu;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.inputmethod.InputMethodSession;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.suburbandigital.amine.tagu.Tags.Tag;
+import com.suburbandigital.amine.tagu.Map.MapTagManager;
 import com.suburbandigital.amine.tagu.Tags.TagMarkerInfo;
-import com.suburbandigital.amine.tagu.Tags.TagType;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-
-import java.util.EventListener;
 
 public class MainMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private MapTagManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +43,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        manager = new MapTagManager(getApplicationContext(), mMap);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(
                 new OnMarkerClickListener() {
@@ -65,11 +60,16 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
                 });
         mMap.setInfoWindowAdapter(new TagMarkerInfo(getApplicationContext()));
 
-        Tag wangTag = new Tag("Wang Center", "Asian food and culture", "SBU", TagType.BUILDING, 40.9159, -73.1197);
+        manager.addMarkersToMap();
 
-        Marker wangMarker = mMap.addMarker(wangTag.toMarkerOptions());
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wangMarker.getPosition(), 16));
-        mMap.setMyLocationEnabled(true);
+
+    }
+    public Marker addMarkerFromTag(Tag tag) {
+        LatLng tempPos = new LatLng(tag.getLat(), tag.getLong());
+        MarkerOptions tempMarkerOptions = new MarkerOptions().title(tag.getNAME()).snippet(tag.getDESCRIPTION());
+        return mMap.addMarker(tempMarkerOptions);
     }
 }
