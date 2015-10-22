@@ -15,7 +15,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.suburbandigital.amine.tagu.Tags.Tag;
@@ -28,7 +27,7 @@ public class MainMap extends FragmentActivity implements
         LocationListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    public static final String TAGG = MainMap.class.getSimpleName();
+    public static final String TAGG = "Current Location Tag";
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -88,7 +87,7 @@ public class MainMap extends FragmentActivity implements
         Tag wangTag = new Tag("Wang Center", "Asian things", "SBU", TagType.BUILDING, 40.9159, -73.1197);
         addTag(wangTag);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(stonybrook));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(stonybrook));
     }
     public void addTag(Tag tag) {
         LatLng tagLL = new LatLng(tag.getLat(), tag.getLong());
@@ -104,7 +103,7 @@ public class MainMap extends FragmentActivity implements
 
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("I am here!");
+                .title("Current Location");
         mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
