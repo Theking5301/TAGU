@@ -4,7 +4,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.InputMethodSession;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,10 +29,11 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -46,39 +49,23 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(
                 new OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        marker.setFlat(true);
+                        TextView t = (TextView) findViewById(R.id.TagName);
+                        t.setText(marker.getTitle());
                         return false;
                     }
                 });
-        mMap.setInfoWindowAdapter(new TagMarkerInfo());
-        // Add a marker in Sydney and move the camera
-        LatLng stonybrook = new LatLng(40.9142, -73.1162);
-        MarkerOptions markerOptions = new MarkerOptions().position(stonybrook).title("Marker in Stony Brook");
-        Marker marker =  mMap.addMarker(markerOptions);
-        //clickListener.onMarkerClick(marker);
-        marker.isDraggable();
-        marker.setAlpha(0.5F);
-        marker.showInfoWindow();
+        mMap.setInfoWindowAdapter(new TagMarkerInfo(getApplicationContext()));
 
-        Tag wangTag = new Tag("Wang Center", "Asian things", "SBU", TagType.BUILDING, 40.9159, -73.1197);
-        addTag(wangTag);
+        Tag wangTag = new Tag("Wang Center", "Asian food and culture", "SBU", TagType.BUILDING, 40.9159, -73.1197);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(stonybrook));
+        Marker wangMarker = mMap.addMarker(wangTag.toMarkerOptions());
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wangMarker.getPosition(), 16));
         mMap.setMyLocationEnabled(true);
-    }
-    public MarkerOptions makeMarker(Tag tag) {
-        LatLng tagLL = new LatLng(tag.getLat(), tag.getLong());
-        return new MarkerOptions().position(tagLL).title(tag.getNAME()).snippet(tag.getDESCRIPTION());
-    }
-    public Marker addMarker(MarkerOptions marker) {
-        return mMap.addMarker(marker);
-    }
-    public Marker addTag(Tag tag) {
-        LatLng tagLL = new LatLng(tag.getLat(), tag.getLong());
-        return mMap.addMarker(new MarkerOptions().position(tagLL).title(tag.getNAME()).snippet(tag.getDESCRIPTION()));
     }
 }
