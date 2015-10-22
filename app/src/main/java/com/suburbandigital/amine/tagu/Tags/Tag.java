@@ -1,11 +1,15 @@
 package com.suburbandigital.amine.tagu.Tags;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.suburbandigital.amine.tagu.Math.Vec2;
+
+import java.io.Serializable;
 
 /**
  * Created by Amine on 10/20/2015.
  */
-public class Tag {
+public class Tag implements Serializable {
     private String NAME;
     private String DESCRIPTION;
     private String ENTITY;
@@ -48,6 +52,11 @@ public class Tag {
     }
     public Vec2 getPOSITION() {
         return POSITION;
+    }
+    public MarkerOptions toMarkerOptions() {
+        LatLng tagLL = new LatLng(this.getLat(), this.getLong());
+        MarkerOptions options = new MarkerOptions().position(tagLL).title(getNAME()).snippet(getDESCRIPTION());
+        return options;
     }
     /*
     * Lat = X Coord
