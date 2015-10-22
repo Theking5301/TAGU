@@ -10,7 +10,6 @@
         android:layout_height="467dp" android:id="@+id/map"
         tools:context="com.suburbandigital.amine.tagu.MainMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        tools:layout="@layout/activity_main_map"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true" />
 
@@ -81,6 +80,30 @@
                     android:id="@+id/Cancel"
                     android:layout_gravity="right"
                     android:background="#bcff8800"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description of information about tag"
+                    android:id="@+id/Desc"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textIsSelectable="false"
+                    android:textSize="18dp"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="0dp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/Pos"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:textColor="#ffffff"
                     android:textSize="18dp" />
 
             </FrameLayout>

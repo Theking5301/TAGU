@@ -54,8 +54,12 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
                 new OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        TextView t = (TextView) findViewById(R.id.TagName);
-                        t.setText(marker.getTitle());
+                        TextView name = (TextView) findViewById(R.id.TagName);
+                        name.setText(marker.getTitle());
+                        TextView desc = (TextView) findViewById(R.id.Desc);
+                        desc.setText(marker.getSnippet());
+                        TextView pos = (TextView) findViewById(R.id.Pos);
+                        pos.setText(marker.getPosition().toString());
                         return false;
                     }
                 });
