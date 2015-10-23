@@ -51,10 +51,8 @@ public class MapTagManager {
     public boolean removeMarkerFromDB(Marker marker) {
         if(HASHMAP.containsKey(marker)) {
             HANDLER.deleteTag(HASHMAP.get(marker));
-            Log.d("DeleteTag", String.valueOf(marker.getPosition().latitude));
             return true;
         }
-        Log.d("DeleteTag", "ERROR");
         return false;
     }
     public Tag tagFromMarker(Marker marker) {

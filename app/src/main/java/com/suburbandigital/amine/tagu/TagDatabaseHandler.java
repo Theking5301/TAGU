@@ -86,11 +86,10 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     public void deleteTag(Tag tag) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASENAME, //table name
-                KEY_XPOS + " = ?",  // selections
-                new String[]{String.valueOf(tag.getLat())}); //selections args
+                KEY_NAME + " = ?",  // selections
+                new String[]{tag.getNAME()}); //selections args
 
         db.close();
-        Log.d("deleteBook", tag.toString());
-
+        Log.d("DeleteTag", tag.toString());
     }
 }
