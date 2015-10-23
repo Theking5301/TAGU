@@ -54,7 +54,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setInterval(10 * 100)        // 1 seconds, in milliseconds
                 .setFastestInterval(1000); // 1 second, in milliseconds
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
