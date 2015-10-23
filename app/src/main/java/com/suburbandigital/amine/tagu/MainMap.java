@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -61,6 +62,15 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        Button button = (Button)findViewById(R.id.AddTag);
+
+        button.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        addCustomTag(v);
+                    }
+                }
+        );
     }
 
     @Override
@@ -185,7 +195,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
 
 
     }
-    public void addTag(View view) {
+    public void addCustomTag(View view) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         Tag tag = new Tag("Hello", "Custom Tag", "SBU", TagType.BUILDING, location.getLatitude(), location.getLongitude());
         manager.addTagToDB(tag);
