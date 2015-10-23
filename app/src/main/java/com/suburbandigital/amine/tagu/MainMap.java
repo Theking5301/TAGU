@@ -199,5 +199,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         Tag tag = new Tag("Hello", "Custom Tag", "SBU", TagType.BUILDING, location.getLatitude(), location.getLongitude());
         manager.addTagToDB(tag);
+        mMap.clear();
+        manager.addMarkersToMap();
     }
 }
