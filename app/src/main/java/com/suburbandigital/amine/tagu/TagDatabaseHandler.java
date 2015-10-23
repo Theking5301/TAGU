@@ -92,4 +92,22 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
         db.close();
         Log.d("DeleteTag", tag.toString());
     }
+    public void clearDB() {
+        List<Tag> tags = new LinkedList<Tag>();
+        addTag(new Tag("Wang Center", "Asian food and culture", "SBU", TagType.BUILDING, 40.9159, -73.1197));
+        String query = "SELECT  * FROM " + DATABASENAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        Tag tag = null;
+        if (cursor.moveToFirst()) {
+            do {
+                tag = new Tag(cursor.getString(1), cursor.getString(2), cursor.getString(3), TagType.valueOf(cursor.getString(4)),
+                        Double.parseDouble(cursor.getString(5)), Double.parseDouble(cursor.getString(6)));
+
+                deleteTag(tag);
+            } while (cursor.moveToNext());
+        }
+    }
 }

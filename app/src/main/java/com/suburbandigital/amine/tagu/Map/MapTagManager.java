@@ -61,4 +61,7 @@ public class MapTagManager {
         }
         return null;
     }
+    public void clearDB() {
+        HANDLER.clearDB();
+    }
 }

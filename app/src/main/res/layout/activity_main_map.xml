@@ -58,8 +58,8 @@
             <Button
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="Go To"
-                android:id="@+id/Goto"
+                android:text="Clear Map"
+                android:id="@+id/ClearMap"
                 android:layout_gravity="left"
                 android:background="#bcff8800"
                 android:textSize="18dp" />

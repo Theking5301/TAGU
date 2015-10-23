@@ -82,6 +82,15 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                     }
                 }
         );
+        Button button3 = (Button)findViewById(R.id.ClearMap);
+        button2.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        manager.clearDB();
+                        mMap.clear();
+                    }
+                }
+        );
     }
 
     @Override
