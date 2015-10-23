@@ -10,6 +10,12 @@ import android.util.Log;
 import com.suburbandigital.amine.tagu.Tags.Tag;
 import com.suburbandigital.amine.tagu.Tags.TagType;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,16 +38,18 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     public TagDatabaseHandler(Context context) {
         super(context, DATABASENAME, null, DATABASEVERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DATABASENAME + " ( " + "id INTEGER, " + "name TEXT, " +
                 "desc TEXT, " + "ent TEXT, " + "type TEXT, " + "posx INTEGER, " + "posy INTEGER )");
-        //DATABASE = getWritableDatabase();
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
     public List<Tag> getAllTags() {
         List<Tag> tags = new LinkedList<Tag>();
         addTag(new Tag("Wang Center", "Asian food and culture", "SBU", TagType.BUILDING, 40.9159, -73.1197));
@@ -63,7 +71,8 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
         //Log.d("getAllBooks()", tag.toString());
         return tags;
     }
-    public void addTag(Tag tag){
+
+    public void addTag(Tag tag) {
         Log.d("addTag", tag.toString());
         SQLiteDatabase database = this.getWritableDatabase();
 

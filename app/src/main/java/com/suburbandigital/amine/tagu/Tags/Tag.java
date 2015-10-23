@@ -15,6 +15,7 @@ public class Tag implements Serializable {
     private String ENTITY;
     private TagType TYPE;
     private Vec2 POSITION;
+    private boolean PRIVATE;
     private int ID;
 
     public Tag(String name, String description, String entity, TagType type, Vec2 position) {
