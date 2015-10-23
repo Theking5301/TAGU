@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.IntentSender;
 import android.location.Location;
+import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.BaseImplementation;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.d;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -58,12 +66,13 @@ import com.suburbandigital.amine.tagu.Tags.TagType;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 
 import java.util.EventListener;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener {
 
     private GoogleMap mMap;
     private MapTagManager manager;
@@ -81,7 +90,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
@@ -167,8 +176,8 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 new OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                            bottomFrame.setVisibility(View.VISIBLE);
-                            bottomFrame.animate().alpha(1f).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).setListener(null);
+                        bottomFrame.setVisibility(View.VISIBLE);
+                        bottomFrame.animate().alpha(1f).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).setListener(null);
                         TextView name = (TextView) findViewById(R.id.TagName);
                         name.setText(marker.getTitle());
                         TextView desc = (TextView) findViewById(R.id.Desc);
@@ -197,18 +206,11 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 }
         );
         mMap.setInfoWindowAdapter(new TagMarkerInfo(getApplicationContext()));
-        int k;
         manager.addMarkersToMap();
-
+        mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
 
 
     }
-    public Marker addMarkerFromTag(Tag tag) {
-        LatLng tempPos = new LatLng(tag.getLat(), tag.getLong());
-        MarkerOptions tempMarkerOptions = new MarkerOptions().title(tag.getNAME()).snippet(tag.getDESCRIPTION());
-        return mMap.addMarker(tempMarkerOptions);
-    }
-
 }
