@@ -41,6 +41,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
     public static final String TAG = MainMap.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest mLocationRequest;
+    Location location;
 
 
     @Override
@@ -71,8 +72,15 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                     }
                 }
         );
+        int k = 0;
+        while(k == 0) {
+            onTick();
+        }
     }
-
+    private void onTick() {
+        TextView view = (TextView)findViewById(R.id.Speed);
+        view.setText(String.valueOf(location.getSpeed()));
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -152,6 +160,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         final View bottomFrame = findViewById(R.id.BottomFrame);
         bottomFrame.setVisibility(View.GONE);
         bottomFrame.setAlpha(0f);
+        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         //bottomFrame.setTranslationY(300);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(
