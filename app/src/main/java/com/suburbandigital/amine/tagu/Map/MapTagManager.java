@@ -11,6 +11,7 @@ import com.suburbandigital.amine.tagu.TagDatabaseHandler;
 import com.suburbandigital.amine.tagu.Tags.Tag;
 import com.suburbandigital.amine.tagu.Tags.TagType;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class MapTagManager {
 
     private GoogleMap MAP;
     private TagDatabaseHandler HANDLER;
+    private HashMap<Marker, Tag> HASHMAP;
 
     public MapTagManager(Context context, GoogleMap map) {
         MAP = map;
@@ -31,7 +33,7 @@ public class MapTagManager {
         Tag[] tagArray = new Tag[tags.size()];
         tags.toArray(tagArray);
         for(int i=0; i<tagArray.length; i++) {
-            addMarkerFromTag(tagArray[i]);
+            HASHMAP.put(addMarkerFromTag(tagArray[i]), tagArray[i]);
         }
         //Marker wangMarker = MAP.addMarker(wangTag.toMarkerOptions());
         //MAP.moveCamera(CameraUpdateFactory.newLatLngZoom(wangMarker.getPosition(), 16));
@@ -44,5 +46,11 @@ public class MapTagManager {
     }
     public void addTagToDB(Tag tag) {
         HANDLER.addTag(tag);
+    }
+    public Tag tagFromMarker(Marker marker) {
+        if(HASHMAP.containsKey(marker)) {
+            return HASHMAP.get(marker);
+        }
+        return null;
     }
 }
