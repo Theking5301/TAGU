@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Custom Tag"
-            android:id="@+id/AddTag"
             android:onClick="addTag"
+            android:id="@+id/AddTag"
             />
 
         <Space
