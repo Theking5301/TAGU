@@ -39,7 +39,7 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + DATABASENAME + " ( " + "id INTEGER, " + "name TEXT, " +
+        db.execSQL("CREATE TABLE " + DATABASENAME + " ( " + "id LONG, " + "name TEXT, " +
                 "desc TEXT, " + "ent TEXT, " + "type TEXT, " + "posx DOUBLE, " + "posy DOUBLE )");
     }
     @Override
@@ -86,8 +86,8 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     public void deleteTag(Tag tag) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASENAME, //table name
-                KEY_NAME + " = ?",  // selections
-                new String[]{tag.getNAME()}); //selections args
+                KEY_ID + " = ?",  // selections
+                new String[]{String.valueOf(tag.getID())}); //selections args
 
         db.close();
         Log.d("DeleteTag", tag.toString());

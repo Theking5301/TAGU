@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.suburbandigital.amine.tagu.Math.Vec2;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Created by Amine on 10/20/2015.
@@ -16,7 +17,7 @@ public class Tag implements Serializable {
     private TagType TYPE;
     private Vec2 POSITION;
     private boolean PRIVATE;
-    private int ID;
+    private final long ID;
 
     public Tag(String name, String description, String entity, TagType type, Vec2 position) {
         NAME = name;
@@ -24,6 +25,8 @@ public class Tag implements Serializable {
         TYPE = type;
         POSITION = position;
         ENTITY = entity;
+        Random rand = new Random();
+        ID = rand.nextInt(0x10000000) + 0x10;
     }
 
     /**
@@ -35,8 +38,10 @@ public class Tag implements Serializable {
         ENTITY = entity;
         TYPE = type;
         POSITION = new Vec2(lat,longi);
+        Random rand = new Random();
+        ID = rand.nextInt(0x10) + 0x10;
     }
-    public int getID() {
+    public long getID() {
         return ID;
     }
     public String getNAME() {
