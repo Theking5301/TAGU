@@ -78,7 +78,8 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         manager.removeMarkerFromDB(selectedMarker);
-                        selectedMarker.remove();
+                        mMap.clear();
+                        manager.addMarkersToMap();
                     }
                 }
         );
