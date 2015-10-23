@@ -78,7 +78,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
                 }
         );
         mMap.setInfoWindowAdapter(new TagMarkerInfo(getApplicationContext()));
-
+        int k;
         manager.addMarkersToMap();
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
