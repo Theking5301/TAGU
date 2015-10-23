@@ -40,7 +40,7 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DATABASENAME + " ( " + "id INTEGER, " + "name TEXT, " +
-                "desc TEXT, " + "ent TEXT, " + "type TEXT, " + "posx INTEGER, " + "posy INTEGER )");
+                "desc TEXT, " + "ent TEXT, " + "type TEXT, " + "posx DOUBLE, " + "posy DOUBLE )");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
