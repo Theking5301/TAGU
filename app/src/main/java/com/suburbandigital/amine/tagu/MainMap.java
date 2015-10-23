@@ -4,24 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.IntentSender;
 import android.location.Location;
-import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.BaseImplementation;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Result;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.api.d;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -32,41 +22,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.suburbandigital.amine.tagu.Tags.Tag;
 import com.suburbandigital.amine.tagu.Map.MapTagManager;
-import com.suburbandigital.amine.tagu.Tags.TagMarkerInfo;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.suburbandigital.amine.tagu.Tags.TagType;
-
-import android.content.IntentSender;
-import android.location.Location;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodSession;
-import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.suburbandigital.amine.tagu.Tags.Tag;
 import com.suburbandigital.amine.tagu.Tags.TagMarkerInfo;
-import com.suburbandigital.amine.tagu.Tags.TagType;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-
-import java.util.EventListener;
-import java.util.concurrent.TimeUnit;
+import com.suburbandigital.amine.tagu.Tags.TagType;
 
 
 public class MainMap extends FragmentActivity implements OnMapReadyCallback,
@@ -90,7 +50,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        
+
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
@@ -101,13 +61,14 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         mGoogleApiClient.connect();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -116,25 +77,28 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
             mGoogleApiClient.disconnect();
         }
     }
+
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
+
     @Override
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         Log.i(TAG, "Connection has been established");
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-        else {
+        } else {
             handleNewLocation(location);
         }
     }
+
     @Override
     public void onConnectionSuspended(int i) {
         Log.i(TAG, "Connection has been suspended");
 
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
@@ -149,6 +113,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         }
 
     }
+
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
@@ -164,6 +129,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
+
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
@@ -218,5 +184,10 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         mMap.getUiSettings().setMapToolbarEnabled(false);
 
 
+    }
+    public void addTag() {
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        Tag tag = new Tag("Hello", "Custom Tag", "SBU", TagType.BUILDING, location.getLatitude(), location.getLongitude());
+        manager.addTagToDB(tag);
     }
 }

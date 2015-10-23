@@ -33,8 +33,6 @@ public class MapTagManager {
         for(int i=0; i<tagArray.length; i++) {
             addMarkerFromTag(tagArray[i]);
         }
-
-
         //Marker wangMarker = MAP.addMarker(wangTag.toMarkerOptions());
         //MAP.moveCamera(CameraUpdateFactory.newLatLngZoom(wangMarker.getPosition(), 16));
         //MAP.setMyLocationEnabled(true);
@@ -43,5 +41,8 @@ public class MapTagManager {
         LatLng tempPos = new LatLng(tag.getLat(), tag.getLong());
         MarkerOptions tempMarkerOptions = new MarkerOptions().position(tempPos).title(tag.getNAME()).snippet(tag.getDESCRIPTION());
         return MAP.addMarker(tempMarkerOptions);
+    }
+    public void addTagToDB(Tag tag) {
+        HANDLER.addTag(tag);
     }
 }
