@@ -65,8 +65,6 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 .build();
         Button button = (Button)findViewById(R.id.AddTag);
 
-        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
         button.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
@@ -74,10 +72,6 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                     }
                 }
         );
-        int k = 0;
-        while(k == 0) {
-            onTick();
-        }
     }
     private void onTick() {
         TextView view = (TextView)findViewById(R.id.Speed);
@@ -202,7 +196,12 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
-
+        
+        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        int k = 0;
+        while(k == 0) {
+            onTick();
+        }
 
     }
     public void addCustomTag(View view) {
