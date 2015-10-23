@@ -1,6 +1,7 @@
 package com.suburbandigital.amine.tagu.Map;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,8 +51,10 @@ public class MapTagManager {
     public boolean removeMarkerFromDB(Marker marker) {
         if(HASHMAP.containsKey(marker)) {
             HANDLER.deleteTag(HASHMAP.get(marker));
+            Log.d("DeleteTag", String.valueOf(marker.getPosition().latitude));
             return true;
         }
+        Log.d("DeleteTag", "ERROR");
         return false;
     }
     public Tag tagFromMarker(Marker marker) {
