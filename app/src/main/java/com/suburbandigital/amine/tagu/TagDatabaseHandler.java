@@ -34,7 +34,6 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ENT = "ent";
     private static final String KEY_XPOS = "posx";
     private static final String KEY_YPOS = "posy";
-
     public TagDatabaseHandler(Context context) {
         super(context, DATABASENAME, null, DATABASEVERSION);
     }
@@ -83,5 +82,15 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
 
         database.insert(DATABASENAME, null, values);
         database.close();
+    }
+    public void deleteTag(Tag tag) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DATABASENAME, //table name
+                KEY_XPOS + " = ?",  // selections
+                new String[]{String.valueOf(tag.getLat())}); //selections args
+
+        db.close();
+        Log.d("deleteBook", tag.toString());
+
     }
 }

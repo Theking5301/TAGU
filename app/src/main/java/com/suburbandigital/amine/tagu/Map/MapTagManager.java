@@ -22,7 +22,7 @@ public class MapTagManager {
 
     private GoogleMap MAP;
     private TagDatabaseHandler HANDLER;
-    private HashMap<Marker, Tag> HASHMAP;
+    private HashMap<Marker, Tag> HASHMAP = new HashMap<Marker, Tag>();
 
     public MapTagManager(Context context, GoogleMap map) {
         MAP = map;
@@ -46,6 +46,13 @@ public class MapTagManager {
     }
     public void addTagToDB(Tag tag) {
         HANDLER.addTag(tag);
+    }
+    public boolean removeMarkerFromDB(Marker marker) {
+        if(HASHMAP.containsKey(marker)) {
+            HANDLER.deleteTag(HASHMAP.get(marker));
+            return true;
+        }
+        return false;
     }
     public Tag tagFromMarker(Marker marker) {
         if(HASHMAP.containsKey(marker)) {

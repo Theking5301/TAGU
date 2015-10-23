@@ -77,8 +77,9 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         button2.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        manager.tagFromMarker(selectedMarker);
-                        selectedMarker.remove();
+                        manager.removeMarkerFromDB(selectedMarker);
+                        mMap.clear();
+                        manager.addMarkersToMap();
                     }
                 }
         );
@@ -113,7 +114,6 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        Log.d("addTag", "Map Clicked");
                         bottomFrame.animate()
                                 .alpha(0f)
                                 .setDuration(getResources().getInteger(
