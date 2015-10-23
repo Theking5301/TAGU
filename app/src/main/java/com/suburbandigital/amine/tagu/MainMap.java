@@ -96,6 +96,12 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1000); // 1 second, in milliseconds
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
     }
     @Override
     protected void onResume() {
