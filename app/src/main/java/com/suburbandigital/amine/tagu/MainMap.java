@@ -65,6 +65,8 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 .build();
         Button button = (Button)findViewById(R.id.AddTag);
 
+        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
         button.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
@@ -160,7 +162,6 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         final View bottomFrame = findViewById(R.id.BottomFrame);
         bottomFrame.setVisibility(View.GONE);
         bottomFrame.setAlpha(0f);
-        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         //bottomFrame.setTranslationY(300);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(
