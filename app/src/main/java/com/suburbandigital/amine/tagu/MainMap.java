@@ -157,10 +157,10 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
 
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("I am here!");
-        mMap.addMarker(options);
+//        MarkerOptions options = new MarkerOptions()
+//                .position(latLng)
+//                .title("I am here!");
+//        mMap.addMarker(options);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
