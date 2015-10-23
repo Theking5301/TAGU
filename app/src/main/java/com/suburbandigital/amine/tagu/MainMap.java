@@ -1,7 +1,12 @@
 package com.suburbandigital.amine.tagu;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -44,11 +49,21 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         manager = new MapTagManager(getApplicationContext(), mMap);
+        final View bottomFrame = findViewById(R.id.BottomFrame);
+        bottomFrame.setVisibility(View.GONE);
+        bottomFrame.setAlpha(0f);
+        //bottomFrame.setTranslationY(300);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(
                 new OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
+                            bottomFrame.setVisibility(View.VISIBLE);
+                            bottomFrame.animate()
+                                    .alpha(1f)
+                                    .setDuration(getResources().getInteger(
+                                            android.R.integer.config_shortAnimTime))
+                                    .setListener(null);
                         TextView name = (TextView) findViewById(R.id.TagName);
                         name.setText(marker.getTitle());
                         TextView desc = (TextView) findViewById(R.id.Desc);
@@ -58,6 +73,22 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback {
                         return false;
                     }
                 });
+        mMap.setOnMapClickListener(
+                new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        bottomFrame.animate()
+                                .alpha(0f)
+                                .setDuration(1)
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bottomFrame.setVisibility(View.GONE);
+                                    }
+                                });
+                    }
+                }
+        );
         mMap.setInfoWindowAdapter(new TagMarkerInfo(getApplicationContext()));
 
         manager.addMarkersToMap();
