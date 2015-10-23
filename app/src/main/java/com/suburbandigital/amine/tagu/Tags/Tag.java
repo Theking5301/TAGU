@@ -26,7 +26,7 @@ public class Tag implements Serializable {
         POSITION = position;
         ENTITY = entity;
         Random rand = new Random();
-        ID = rand.nextInt(0x10000000) + 0x10;
+        ID = rand.nextInt(0x10) + 0x10000000;
     }
 
     /**
