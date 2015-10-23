@@ -161,30 +161,18 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
 
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        /*
+
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("I am here!");
         mMap.addMarker(options);
-        */
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
 
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
-    }
-
-    /**
-     * Adding buttonOnClick method to have mainMap do something
-     */
-
-    private TextView textout;
-
-
-    public void buttonOnClick(View v){
-        textout = (TextView) findViewById(R.id.Pos);
-        textout.setText("Lat/Lng: " + stonybrook.latitude + stonybrook.longitude);
     }
 
 
