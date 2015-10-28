@@ -1,8 +1,15 @@
 package com.suburbandigital.amine.tagu.Tags;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
+
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.suburbandigital.amine.tagu.Math.Vec2;
+import com.suburbandigital.amine.tagu.R;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -64,20 +71,20 @@ public class Tag implements Serializable {
         MarkerOptions options = new MarkerOptions().position(tagLL).title(getNAME()).snippet(getDESCRIPTION());
         return options;
     }
-    /*
-    * Lat = X Coord
-    * */
     public double getLat() {
         return POSITION.getX();
     }
-    /*
-    * Long = Y Coord
-    * */
     public double getLong() {
         return POSITION.getY();
     }
     @Override
     public String toString() {
         return "TAG [id=" + ID + ", name=" + NAME + ", desc=" + DESCRIPTION + ", ent=" + ENTITY + ", type=" + TYPE + ", posx=" + POSITION.getX() + "posy=" + POSITION.getY() + "]";
+    }
+    public BitmapDescriptor getIcon() {
+        switch (TYPE) {
+            case FOOD : return BitmapDescriptorFactory.fromResource(R.drawable.food);
+            default : return BitmapDescriptorFactory.fromResource(R.drawable.places);
+        }
     }
 }

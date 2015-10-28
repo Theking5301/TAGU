@@ -41,8 +41,6 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DATABASENAME + " ( " + "id LONG, " + "name TEXT, " +
                 "desc TEXT, " + "ent TEXT, " + "type TEXT, " + "posx DOUBLE, " + "posy DOUBLE )");
-
-        addTag(new Tag("Wang Center", "Asian food and culture", "SBU", TagType.BUILDING, 40.9159, -73.1197));
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -64,6 +62,7 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
                 tags.add(tag);
             } while (cursor.moveToNext());
         }
+        db.close();
         //Log.d("getAllBooks()", tag.toString());
         return tags;
     }
@@ -106,5 +105,6 @@ public class TagDatabaseHandler extends SQLiteOpenHelper {
                 deleteTag(tag);
             } while (cursor.moveToNext());
         }
+        db.close();
     }
 }

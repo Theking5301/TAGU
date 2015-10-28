@@ -20,10 +20,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.suburbandigital.amine.tagu.Map.MapTagManager;
+import com.suburbandigital.amine.tagu.Map.MapManager;
 import com.suburbandigital.amine.tagu.Tags.Tag;
 import com.suburbandigital.amine.tagu.Tags.TagMarkerInfo;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -36,12 +36,12 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         LocationListener {
 
     private GoogleMap mMap;
-    private MapTagManager manager;
+    private MapManager manager;
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = MainMap.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest mLocationRequest;
-    private Marker selectedMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +66,16 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                        Tag tag = new Tag("Hello", "Custom Tag", "SBU", TagType.BUILDING, location.getLatitude(), location.getLongitude());
+                        Tag tag;
+                        TextView text = (TextView)findViewById(R.id.editText);
+                        if(location != null) {
+                            tag = new Tag(text.getText().toString(), "Custom Tag", "SBU", TagType.BUILDING, location.getLatitude(), location.getLongitude());
+                        }else{
+                            tag = new Tag(text.getText().toString(), "Custom Tag", "SBU", TagType.BUILDING, 0, 0);
+                        }
                         manager.addTagToDB(tag);
                         mMap.clear();
-                        manager.addMarkersToMap();
+                        manager.refreshMap();
                     }
                 }
         );
@@ -77,9 +83,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
         button2.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        manager.removeMarkerFromDB(selectedMarker);
-                        mMap.clear();
-                        manager.addMarkersToMap();
+                        manager.removeMarker(manager.getSelectedMarker());
                     }
                 }
         );
@@ -93,11 +97,10 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                 }
         );
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        manager = new MapTagManager(getApplicationContext(), mMap);
+        manager = new MapManager(getApplicationContext(), mMap);
         final View bottomFrame = findViewById(R.id.BottomFrame);
         bottomFrame.setVisibility(View.GONE);
         bottomFrame.setAlpha(0f);
@@ -115,7 +118,7 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                         desc.setText(marker.getSnippet());
                         TextView pos = (TextView) findViewById(R.id.Pos);
                         pos.setText(marker.getPosition().toString());
-                        selectedMarker = marker;
+                        manager.setSelectedMarker(marker);
                         return false;
                     }
                 });
@@ -133,17 +136,16 @@ public class MainMap extends FragmentActivity implements OnMapReadyCallback,
                                         bottomFrame.setVisibility(View.GONE);
                                     }
                                 });
+                        manager.setSelectedMarker(null);
                     }
                 }
         );
         mMap.setInfoWindowAdapter(new TagMarkerInfo(getApplicationContext()));
-        manager.addMarkersToMap();
+        manager.refreshMap();
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
